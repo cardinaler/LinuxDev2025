@@ -1,4 +1,4 @@
-CFLAGS = -o0 -g
+CFLAGS = -O0 -g
 TRASH = *.o 
 GENERATES = *.out range
 
