@@ -1,0 +1,28 @@
+--- lab.c	2025-11-25 18:57:52.058833968 +0300
++++ lab1.c	2025-11-25 19:35:17.210257244 +0300
+@@ -70,7 +70,6 @@
+     }
+ }
+ 
+-
+ void set_bounds(char **lab, char wall_c, char road_c, int lab_size)
+ {
+     for (int j = 0; j < lab_size; ++j)
+@@ -118,10 +117,15 @@
+     }
+ }
+ 
+-int main()
++int main(int argc, char *argv[])
+ {
++    if (argc != 2)
++    {
++        printf("Parameters error!\n");
++        return 1;
++    }
+     srand(seed);
+-    int lab_size = 6;
++    int lab_size = atoi(argv[1]);
+     int x_start = rand() % (lab_size - 2) + 1;
+     int y_start = rand() % (lab_size - 2) + 1;
+     char wall_c = '#';

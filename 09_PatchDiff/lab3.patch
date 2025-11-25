@@ -1,0 +1,53 @@
+--- lab.c	2025-11-25 18:57:52.058833968 +0300
++++ lab3.c	2025-11-25 19:37:26.936663459 +0300
+@@ -70,7 +70,6 @@
+     }
+ }
+ 
+-
+ void set_bounds(char **lab, char wall_c, char road_c, int lab_size)
+ {
+     for (int j = 0; j < lab_size; ++j)
+@@ -82,7 +81,7 @@
+         lab[i][0] = wall_c;
+         for (int j = 1; j < lab_size - 1; ++j)
+         {
+-            lab[i][j] = (char)(road_c + 1);
++            lab[i][j] = (char)(road_c + wall_c);
+         }
+         lab[i][lab_size - 1] = wall_c;
+     }
+@@ -110,7 +109,7 @@
+     {
+         for (int j = 0; j < lab_size; ++j)
+         {
+-            if (lab[i][j] == (char)(road_c + 1))
++            if (lab[i][j] == (char)(road_c + wall_c))
+             {
+                 lab[i][j] = wall_c;
+             }
+@@ -118,14 +117,20 @@
+     }
+ }
+ 
+-int main()
++int main(int argc, char *argv[])
+ {
++    if (argc != 4 && sizeof(argv[1]) / sizeof(char) != 2)
++    {
++        printf("Parameters error!\n");
++        return 1;
++    }
++    seed = atoi(argv[3]);
+     srand(seed);
+-    int lab_size = 6;
++    int lab_size = atoi(argv[2]);
+     int x_start = rand() % (lab_size - 2) + 1;
+     int y_start = rand() % (lab_size - 2) + 1;
+-    char wall_c = '#';
+-    char road_c = '.';
++    char road_c = argv[1][0];
++    char wall_c = argv[1][1];
+ 
+     char **lab;
+     lab = malloc(lab_size * sizeof(char *));
