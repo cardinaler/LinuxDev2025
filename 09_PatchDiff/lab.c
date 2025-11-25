@@ -70,7 +70,6 @@ void dfs(char **lab, int x, int y, char wall_c, char road_c)
     }
 }
 
-
 void set_bounds(char **lab, char wall_c, char road_c, int lab_size)
 {
     for (int j = 0; j < lab_size; ++j)
@@ -137,6 +136,10 @@ int main()
     dfs(lab, x_start, y_start, wall_c, road_c);
     fill_gaps(lab, lab_size, wall_c, road_c);
     print_lab(lab, lab_size);
-
+    for (int i = 0; i < lab_size; ++i)
+    {
+        free(lab[i]);
+    }
+    free(lab);
     return 0;
 }
