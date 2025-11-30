@@ -5,7 +5,10 @@ set(CMAKE_C_STANDARD 11)
 
 set(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+option(ENABLE_COVERAGE "Enable coverage" ON)
 
+add_compile_options(--coverage)
+add_link_options(--coverage)
 
 add_library(buf SHARED ${SRC_DIR}/buf.c)
 target_include_directories(buf PUBLIC ${SRC_DIR})
@@ -32,9 +35,17 @@ target_link_libraries(buf_tests
     rt
     m
     subunit
-    --coverage
 )
 
+include(CTest) 
+
+add_custom_target(coverage
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
+        COMMAND find -name "buf.c.gcda" | xargs gcov
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    )
+
+add_test(NAME buf_tests COMMAND buf_tests)
 
 set_target_properties(buf_tests PROPERTIES
     BUILD_RPATH "${CMAKE_BINARY_DIR}"
@@ -43,11 +54,3 @@ set_target_properties(buf_tests PROPERTIES
 set_target_properties(buf_tests PROPERTIES
     INSTALL_RPATH "$ORIGIN"
 )
-
-set(CTEST_BINARY_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CTEST_SOURCE_DIRECTORY ${CMAKE_SOURCE_DIR})
-include(CTest)
-
-enable_testing()
-add_test(NAME buf_tests COMMAND ${CMAKE_BINARY_DIR}/buf_tests)
-
