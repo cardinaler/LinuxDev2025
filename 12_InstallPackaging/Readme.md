@@ -1,7 +1,10 @@
 ## Сборка и установка программы в систему (нужен @root)
 autoreconf -fisv
+
 ./configure --libdir=/usr/lib
+
 make
+
 make install
 
 ## Запуск программы 
